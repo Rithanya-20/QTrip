@@ -5,6 +5,13 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
+  
+
+  const params = new URLSearchParams(search);
+  let ct = params.get('city')
+  console.log(ct);
+  return ct;
+
 
 }
 
@@ -12,6 +19,19 @@ function getCityFromURL(search) {
 async function fetchAdventures(city) {
   // TODO: MODULE_ADVENTURES
   // 1. Fetch adventures using the Backend API and return the data
+  try{
+      let getchApi = config.backendEndpoint + "/adventures?city=" + city;
+
+      const res = await fetch(getchApi);
+      let data = await res.json();
+      console.log(data);
+
+      return data;
+  }
+  catch(err){
+      return null;
+  }
+  
 
 }
 
@@ -19,8 +39,98 @@ async function fetchAdventures(city) {
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
+  for(let i in adventures){
+
+    let rEle = document.getElementById("data");
+    let cELe = document.createElement("div");
+    cELe.setAttribute("class", "col-6 col-lg-3 mb-3");
+
+   
+
+    let link = document.createElement("a");
+    let l = "detail/?adventure="+adventures[i].id;
+    link.setAttribute("href", l);
+    link.setAttribute("id", adventures[i].id)
+
+    let dummy = document.createElement("div");
+
+
+    
+
+    let cbEle = document.createElement("div");
+    cbEle.setAttribute("class","category-banner");
+    cbEle.innerText = adventures[i].category ;
+
+   
+
+    let actEle = document.createElement("div");
+    actEle.setAttribute("class","activity-card");
+    
+
+    let image1 = document.createElement("img");
+    image1.setAttribute("class","img-responsive");
+    image1.setAttribute("src", adventures[i].image);
+    image1.setAttribute("alt",adventures[i].name);
+    
+    actEle.appendChild(image1);
+
+
+    let contEle = document.createElement("div");
+    contEle.setAttribute("class", "container d-flex flex-wrap justify-content-between mt-3");
+    
+    let h5Ele = document.createElement("h5");
+    h5Ele.innerText = adventures[i].name;
+
+    let pEle = document.createElement("p");
+    pEle.innerText = adventures[i].currency +" "+adventures[i].costPerHead;
+
+    contEle.appendChild(h5Ele);
+    contEle.appendChild(pEle);
+
+    actEle.appendChild(contEle);
+
+    let fcontEle = document.createElement("div");
+    fcontEle.setAttribute("class", "container d-flex flex-wrap justify-content-between");
+
+    let h5Ele2 = document.createElement("h5");
+    h5Ele2.innerText= "Duration";
+
+    let pEle2 = document.createElement("p");
+    pEle2.innerText = adventures[i].duration;
+
+    fcontEle.appendChild(h5Ele2);
+    fcontEle.appendChild(pEle2);
+
+    actEle.appendChild(fcontEle);
+    
+    actEle.appendChild(cbEle)
+    // dummy.appendChild(cbEle);
+    dummy.appendChild(actEle);
+
+    link.appendChild(dummy);
+
+    // link.appendChild(cbEle);
+    // link.appendChild(actEle);
+   
+    
+    cELe.appendChild(link);
+    rEle.appendChild(cELe);
+
+
+  }
+  
+
+  
+
+  
+
+
+  
+
 
 }
+
+
 
 //Implementation of filtering by duration which takes in a list of adventures, the lower bound and upper bound of duration and returns a filtered list of adventures.
 function filterByDuration(list, low, high) {

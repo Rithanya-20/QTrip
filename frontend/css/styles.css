@@ -180,6 +180,7 @@ footer {
 .category-banner {
   position: absolute;
   /* height: 50px; */
+  
   padding: 5px 10px;
   box-shadow: 2px 1px 10px 1px rgba(0, 0, 0, 0.3);
   /*
@@ -192,7 +193,8 @@ footer {
   right: 0;
   z-index: 1;
   margin-top: 16px;
-  margin-right: 8px;
+  /* margin-right:8px */
+  margin-right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
