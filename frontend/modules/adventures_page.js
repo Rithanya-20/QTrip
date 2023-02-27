@@ -132,17 +132,86 @@ function addAdventureToDOM(adventures) {
 
 
 
+
+
+
 //Implementation of filtering by duration which takes in a list of adventures, the lower bound and upper bound of duration and returns a filtered list of adventures.
 function filterByDuration(list, low, high) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on Duration and return filtered list
+  
+  var l = parseInt(low);
+ 
+  var h = parseInt(high);
+  let ans = [];
+  for(let i in list){
+    
+    if((list[i].duration >= l) && (list[i].duration <= h)){
+    
+      ans.push(list[i]);
+
+ 
+    }
+  }
+  // console.log(res);
+  return ans;
 
 }
+
+// const input = [
+//   {
+//     id: "3091807927",
+//     name: "East Phisphoe",
+//     price: "500",
+//     currency: "INR",
+//     image:
+//       "https://images.pexels.com/photos/3380805/pexels-photo-3380805.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+//     duration: 10,
+//     category: "Beaches",
+//   },
+//   {
+//     id: "3091807927",
+//     name: "Beach Cabanna",
+//     price: "500",
+//     currency: "INR",
+//     image:
+//       "https://images.pexels.com/photos/67566/palm-tree-palm-ocean-summer-67566.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+//     duration: 15,
+//     category: "Beaches",
+//   },
+// ];
+// let output = filterByDuration(input, "6", "10");
+// console.log(output);
+
 
 //Implementation of filtering by category which takes in a list of adventures, list of categories to be filtered upon and returns a filtered list of adventures.
 function filterByCategory(list, categoryList) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on their Category and return filtered list
+  // console.log("im in cat");
+  // console.log(list);
+  
+  let res = [];
+  for(let i in categoryList){
+    for(let j in list){
+      if(list[j].category == categoryList[i]){
+        res.push(list[j]);
+      }
+    }
+  }
+
+  // list= list.filter(function(item) {
+  //   for (var key in categoryList) {
+  //     if (item[key].category != categoryList[key])
+  //       console.log(item[key].category);
+  //       return false;
+  //   }
+  //   return true;
+  // });
+  
+  // console.log(res)
+  
+  return res;
 
 }
 
@@ -157,10 +226,54 @@ function filterFunction(list, filters) {
   // TODO: MODULE_FILTERS
   // 1. Handle the 3 cases detailed in the comments above and return the filtered list of adventures
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
+  // console.log("list :");
+  // console.log(list);
+  console.log(filters);
+  var filList = [];
 
+  if((filters.duration == "") && (filters.category != "")){
+    // console.log("**"+filters.category);
+    filList = filterByCategory(list,filters.category);
+    return filList;
+  }
+  
+
+  else if((filters.duration != "") && (filters.category == "")){
+    
+    var hh = filters.duration;
+    var h = hh.split("-");
+    var h1 = h[0];
+    var h2 = h[1];
+    // console.log(h1 + "$"+h2);
+    let res = filterByDuration(list, h1, h2);
+    return res;
+   
+
+  }
+
+  else if((filters.duration != "") && (filters.category != "")){
+    
+    var dd = filters.duration;
+    var d = dd.split("-");
+    var d1 = d[0];
+    var d2 = d[1];
+
+    const df = list.filter(obj => (obj.duration >= d1 && obj.duration <= d2));
+    var durationFiltered = filterByCategory(df,filters.category);
+    return durationFiltered;
+
+
+
+
+  }
+
+  else if((filters.duration == "") && (filters.category == "")){
+    return list;
+  }
 
   // Place holder for functionality to work in the Stubs
-  return list;
+  // console.log("%%%%"+filList);
+  
 }
 
 //Implementation of localStorage API to save filters to local storage. This should get called everytime an onChange() happens in either of filter dropdowns
@@ -168,17 +281,34 @@ function saveFiltersToLocalStorage(filters) {
   // TODO: MODULE_FILTERS
   // 1. Store the filters as a String to localStorage
 
+
+  localStorage.setItem('filters', 
+    JSON.stringify(filters));
+
+
   return true;
 }
+// saveFiltersToLocalStorage();
 
 //Implementation of localStorage API to get filters from local storage. This should get called whenever the DOM is loaded.
 function getFiltersFromLocalStorage() {
   // TODO: MODULE_FILTERS
   // 1. Get the filters from localStorage and return String read as an object
+  var retrievedObject = localStorage.getItem('filters');
+
+  var ret = JSON.parse(retrievedObject);
+
+  console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
 
-  // Place holder for functionality to work in the Stubs
-  return null;
+  // // Place holder for functionality to work in the Stubs
+  // generateFilterPillsAndUpdateDOM(ret);
+
+  // return retrievedObject;
+
+  return ret;
+
+  // return null;
 }
 
 //Implementation of DOM manipulation to add the following filters to DOM :
@@ -188,6 +318,53 @@ function getFiltersFromLocalStorage() {
 function generateFilterPillsAndUpdateDOM(filters) {
   // TODO: MODULE_FILTERS
   // 1. Use the filters given as input, update the Duration Filter value and Generate Category Pills
+   const rObj = getFiltersFromLocalStorage();  
+   
+
+  //  if(rObj.category != null){
+  //   console.log("hey "+rObj.category);
+
+  //  }
+  //  else{
+  //   console.log("hey "+rObj);
+
+  //  }
+   
+
+    // let clEle = document.getElementById("category-list");
+    // let dEle = document.createElement("div"); 
+   
+    // dEle.setAttribute("class","category-filter");
+    // dEle.innerText = filters.category[i];
+    // clEle.append(dEle);
+        //   for (var i = 0, l = filters.duration.length; i < l; i++) {
+        //     var obj = data.messages[i];
+        //     let clEle = document.getElementById("category-list");
+        //     let dEle = document.createElement("div"); 
+          
+        //     dEle.setAttribute("class","category-filter");
+        //     dEle.innerText = filters.duration[i];
+        //     clEle.append(dEle);
+            
+        // }
+        // if(filters.duration != ""){
+        //   let durationId = document.getElementById("duration-title");
+        //   durationId.textContent = filters.duration + " Hours";
+        //   console.log(filters.duration);
+        // }
+
+        for (var i = 0, l = filters.category.length; i < l; i++) {
+          
+          let clEle = document.getElementById("category-list");
+          let dEle = document.createElement("div"); 
+        
+          dEle.setAttribute("class","category-filter");
+          dEle.innerText = filters.category[i];
+          clEle.append(dEle);
+        
+        }
+
+  
 
 }
 export {

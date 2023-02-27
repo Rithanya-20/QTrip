@@ -51,7 +51,7 @@
                     <div class="filter-bar-tile d-flex align-items-center">
                         <select class="form-control" name="duration" id="duration-select"
                             onchange="selectDuration(event)">
-                            <option disabled selected value="">
+                            <option disabled selected value="" id="duration-title">
                                 Filter by Duration (Hours)
                             </option>
                             <option value="0-2">0-2 Hours</option>
@@ -119,7 +119,7 @@
             getFiltersFromLocalStorage() !== null
                 ? getFiltersFromLocalStorage()
                 : { duration: "", category: [] };
-
+        console.log(filters);
 
         //entry point (executed when DOM is loaded)
         (async function () {
@@ -129,7 +129,6 @@
 
             //Fetches the adventures for the particular city
             adventures = await fetchAdventures(city);
-            console.log(adventures);
 
             //Applies filters on the adventures list
             let filteredAdventures = filterFunction(adventures, filters);
@@ -147,6 +146,20 @@
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to show the selected duration filter. Use the provided input event
             // 2. Invoke saveFiltersToLocalStorage here
+            document.getElementById("data").textContent = "";
+            // document.getElementById("duration-list").textContent = "";
+
+            let d = event.target.value;
+            console.log(d);
+            // document.getElementById("duration-select").selectedIndex = 0;
+            filters["duration"] = d;
+
+            let filteredAdventures = filterFunction(adventures, filters);
+            addAdventureToDOM(filteredAdventures);
+
+            saveFiltersToLocalStorage(filters);
+
+            
 
         }
 
@@ -155,6 +168,13 @@
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to clear the Duration filter. Refer clearCategory() below
             // 2. Invoke saveFiltersToLocalStorage here
+            document.getElementById("data").textContent = "";
+            filters["duration"] = "";
+            document.getElementById("duration-select").selectedIndex = 0;
+            let filteredAdventures = filterFunction(adventures, filters);
+            addAdventureToDOM(filteredAdventures);
+
+            saveFiltersToLocalStorage(filters);
 
         }
 
@@ -174,7 +194,10 @@
 
             generateFilterPillsAndUpdateDOM(filters);
             let filteredAdventures = filterFunction(adventures, filters);
+            saveFiltersToLocalStorage(filters);
             addAdventureToDOM(filteredAdventures);
+
+            
 
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
@@ -188,6 +211,8 @@
             filters["category"] = [];
             let filteredAdventures = filterFunction(adventures, filters);
             addAdventureToDOM(filteredAdventures);
+
+            saveFiltersToLocalStorage(filters);
 
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
