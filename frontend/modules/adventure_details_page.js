@@ -125,13 +125,16 @@ function conditionalRenderingOfReservationPanel(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. If the adventure is already reserved, display the sold-out message.
   if(adventure.available){
-    document.getElementById("reservation-panel-sold-out").style.display = 'none';
+    // document.getElementById("reservation-panel-sold-out").style.display = 'none';
     document.getElementById("reservation-panel-available").style.display = 'block';
-    document.getElementById("reservation-person-cost").innerText = adventure.costPerHead;
+    // document.getElementById("reservation-person-cost").innerText = adventure.costPerHead;
+    document.getElementById("reservation-person-cost").textContent = adventure.costPerHead;
+
+    // document.getElementById("reservation-person-cost").innerHTML += "<span>${adventure.costPerHead}</span>";
   }
   else{
     document.getElementById("reservation-panel-sold-out").style.display = 'block';
-    document.getElementById("reservation-panel-available").style.display = 'none';
+    // document.getElementById("reservation-panel-available").style.display = 'none';
 
   }
 
@@ -142,10 +145,18 @@ function conditionalRenderingOfReservationPanel(adventure) {
 function calculateReservationCostAndUpdateDOM(adventure, persons) {
   // TODO: MODULE_RESERVATIONS
   // 1. Calculate the cost based on number of persons and update the reservation-cost field
-  let toto = adventure.costPerHead * persons;
+  // let toto = adventure.costPerHead * persons;
 
   // console.log(toto);
-  document.getElementById("reservation-cost").innerText = toto;
+  // document.getElementById("reservation-cost").innerText = toto;
+
+  let totalPersons = parseInt(persons)
+ 
+  let cost = adventure.costPerHead * totalPersons
+  
+  let reservationPrice = document.getElementById("reservation-cost")
+  
+  reservationPrice.textContent = cost
 
 
 }
