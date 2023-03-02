@@ -134,7 +134,7 @@ function conditionalRenderingOfReservationPanel(adventure) {
   }
   else{
     document.getElementById("reservation-panel-sold-out").style.display = 'block';
-    // document.getElementById("reservation-panel-available").style.display = 'none';
+    document.getElementById("reservation-panel-available").style.display = 'none';
 
   }
 
