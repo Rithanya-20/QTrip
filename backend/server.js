@@ -98,6 +98,7 @@ If the reservation is successful, it flips the "available" key to "false" and "r
 */
 app.post("/reservations/new", (req, res) => {
   const reservation = req.body;
+  console.log(reservation);
   if (! (reservation.name && reservation.date && reservation.person && reservation.adventure)) {
     return res.status(400).send({
       message: `Invalid data received`,

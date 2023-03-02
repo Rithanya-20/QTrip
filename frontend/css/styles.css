@@ -232,6 +232,7 @@ input[type="number"] {
 }
 .reservation-visit-button {
   background-color: rgb(255, 145, 0);
+  border-color:rgb(255, 145, 0) ;
   color: #fff;
   display: flex;
   justify-content: center;

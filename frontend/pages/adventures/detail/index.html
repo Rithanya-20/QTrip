@@ -91,7 +91,7 @@
                                         </h5>
                                     </div>
                                 </div>
-                                <button class="reserve-button" type="submit">Reserve</button>
+                                <button class="reserve-button" type="submit" id="res-btn">Reserve</button>
                             </form>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
             addBootstrapPhotoGallery(adventureDetails.images);
             conditionalRenderingOfReservationPanel(adventureDetails);
             captureFormSubmit(adventureDetails);
-            showBannerIfAlreadyReserved(adventureDetails);
+            
             function onPersonsChange(event) {
                 calculateReservationCostAndUpdateDOM(
                     adventureDetails,
@@ -134,6 +134,7 @@
                 );
             }
             window.onPersonsChange = onPersonsChange;
+            showBannerIfAlreadyReserved(adventureDetails);
         })();
     </script>
 </body>
