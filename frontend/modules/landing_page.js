@@ -49,7 +49,7 @@ function addCityToDOM(id, city, description, image) {
   // divEle.setAttribute("class","mb-3");
 
   let link = document.createElement("a");
-  link.setAttribute("href","/pages/adventures/?city="+id);
+  link.setAttribute("href","pages/adventures/?city="+id);
   link.setAttribute("id", id);
 
   let tileDiv = document.createElement("div");
